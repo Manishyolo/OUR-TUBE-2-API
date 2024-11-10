@@ -11,6 +11,7 @@ Router.post('/upload',validateToken,async (req,res)=>{
        const user = await userModel.findOne({email:email});
        const {title,description,category,tags} = req.body;
        const {video,thumbnailUrl} = req.files;
+       console.log(video,thumbnailUrl);
        const uploadedvideo = await cloudinary.uploader.upload(video.tempFilePath,{
               resource_type:'video'
        })
