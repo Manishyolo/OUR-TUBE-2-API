@@ -6,33 +6,44 @@ const validateToken = require('../middleware/validateAuth');
 const cloudinary = require('cloudinary').v2;
 
 Router.post('/upload',validateToken,async (req,res)=>{ 
-     
-       const {email} = req.user;
-       const user = await userModel.findOne({email:email});
-       const {title,description,category,tags} = req.body;
-       const {video,thumbnailUrl} = req.files;
-       console.log(video,thumbnailUrl);
-       const uploadedvideo = await cloudinary.uploader.upload(video.tempFilePath,{
-              resource_type:'video'
-       })
-       const uploadedThumbnail = await cloudinary.uploader.upload(thumbnailUrl.tempFilePath);
-  
-  
-       const videodata = await videoModel.create({
-              title:title,
-              description:description,
-              user_id:user._id,
-              videoUrl:uploadedvideo.secure_url,
-              videoId:uploadedvideo.public_id,
-              thumbnailUrl:uploadedThumbnail.secure_url,
-              thumbnailId:uploadedThumbnail.public_id,
-              category:category,
-              tags:tags.split(","),
-           
-       })
-       res.status(200).json({
-              newvideo:videodata,
-       })
+        try {
+         
+         const {email} = req.user;
+         const user = await userModel.findOne({email:email});
+         const {title,description,category,tags} = req.body;
+         const {video,thumbnailUrl} = req.files;
+         console.log(video,thumbnailUrl);
+               if(!video || !thumbnailUrl){
+                 return res.status(500).json({message:"please provide thumbnail or video"})
+               }
+         const uploadedvideo = await cloudinary.uploader.upload(video.tempFilePath,{
+                resource_type:'video'
+         })
+         const uploadedThumbnail = await cloudinary.uploader.upload(thumbnailUrl.tempFilePath);
+    
+    
+         const videodata = await videoModel.create({
+                title:title,
+                description:description,
+                user_id:user._id,
+                videoUrl:uploadedvideo.secure_url,
+                videoId:uploadedvideo.public_id,
+                thumbnailUrl:uploadedThumbnail.secure_url,
+                thumbnailId:uploadedThumbnail.public_id,
+                category:category,
+                tags:tags.split(","),
+             
+         })
+         res.status(200).json({
+                newvideo:videodata,
+                message:"video uploaded successfully"
+         })
+
+        } catch (error) {
+           res.status(400).json({error:error});
+        }  
+
+      
 })
 // video update router //
  Router.put("/:videoId",validateToken,async (req,res)=>{
