@@ -5,6 +5,27 @@ const videoModel = require('../models/Video');
 const validateToken = require('../middleware/validateAuth');
 const cloudinary = require('cloudinary').v2;
 
+
+
+// get own video //
+Router.get("/own-video",validateToken,async (req,res)=>{
+      try {
+         const {email} = req.user;
+         const user = await userModel.findOne({email:email});
+         const video = await videoModel.find({user_id:user._id}).populate('user_id');
+         console.log(user);
+         res.status(200).json({
+            video:video
+         })
+
+      } catch (error) {
+          console.log(error);
+          res.status(500).json({
+            error:error
+          })
+      }
+})
+
 Router.post('/upload',validateToken,async (req,res)=>{ 
         try {
          
