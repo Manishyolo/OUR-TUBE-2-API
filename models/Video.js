@@ -6,6 +6,7 @@ const videoSchema = new mongoose.Schema({
      description:{type:String,required:true},
      user_id:{type:mongoose.Schema.Types.ObjectId,required:true,ref:'User'},
      videoUrl:{type:String,required:true},
+     duration:{type:Number,required:true},
      videoId:{type:String,required:true},
      thumbnailUrl:{type:String,required:true},
      thumbnailId:{type:String,required:true},

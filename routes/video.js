@@ -4,7 +4,7 @@ const userModel = require('../models/User');
 const videoModel = require('../models/Video');
 const validateToken = require('../middleware/validateAuth');
 const cloudinary = require('cloudinary').v2;
-
+const {getVideoDurationInSeconds} = require('get-video-duration');
 
 
 // get own video //
@@ -40,6 +40,9 @@ Router.post('/upload',validateToken,async (req,res)=>{
          const uploadedvideo = await cloudinary.uploader.upload(video.tempFilePath,{
                 resource_type:'video'
          })
+         console.log(uploadedvideo);
+         const {duration} = uploadedvideo;
+     
          const uploadedThumbnail = await cloudinary.uploader.upload(thumbnailUrl.tempFilePath);
     
     
@@ -48,6 +51,7 @@ Router.post('/upload',validateToken,async (req,res)=>{
                 description:description,
                 user_id:user._id,
                 videoUrl:uploadedvideo.secure_url,
+                duration:duration,
                 videoId:uploadedvideo.public_id,
                 thumbnailUrl:uploadedThumbnail.secure_url,
                 thumbnailId:uploadedThumbnail.public_id,
