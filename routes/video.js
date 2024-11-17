@@ -134,8 +134,9 @@ Router.delete('/:videoId',validateToken,async (req,res)=>{
       const user = await userModel.findOne({email:email});
       const {_id,channelName} = user;
       const video = await videoModel.findOne({_id:req.params.videoId});
-    
-     if(video.user_id._id == _id){
+      
+         console.log(video.user_id.toString() == _id.toString())
+     if(video.user_id.toString() == _id.toString()){
     
     await cloudinary.uploader.destroy(video.videoId,{resource_type:'video'});
      await cloudinary.uploader.destroy(video.thumbnailId);
