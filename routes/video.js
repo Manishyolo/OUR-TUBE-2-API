@@ -13,7 +13,12 @@ Router.get("/own-video",validateToken,async (req,res)=>{
          const {email} = req.user;
          const user = await userModel.findOne({email:email});
          const video = await videoModel.find({user_id:user._id}).populate('user_id');
-         console.log(user);
+         const responseData = JSON.stringify({video});
+          console.log(responseData);
+         const contentLength = Buffer.byteLength(responseData);
+           console.log(contentLength);
+           res.setHeader("Content-Length",contentLength)
+        
          res.status(200).json({
             video:video
          })
