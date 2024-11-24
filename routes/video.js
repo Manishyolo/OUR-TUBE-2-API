@@ -18,7 +18,7 @@ Router.get("/own-video",validateToken,async (req,res)=>{
          const contentLength = Buffer.byteLength(responseData);
            console.log(contentLength);
            res.setHeader("Content-Length",contentLength)
-        
+            console.log("headers sent",res.getHeaders());
          res.status(200).json({
             video:video
          })
@@ -84,7 +84,8 @@ Router.post('/upload',validateToken,async (req,res)=>{
         const {_id,channelName} = user
         const video = await videoModel.findOne({_id:req.params.videoId});
         const {title,description,user_id,thumbnailUrl,thumbnailId,category,tags,} = video;
-    
+        console.log(_id,user_id);
+        console.log(_id == user_id);
       if(_id == user_id){
      
         if(req.files){
