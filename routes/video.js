@@ -85,8 +85,8 @@ Router.post('/upload',validateToken,async (req,res)=>{
         const video = await videoModel.findOne({_id:req.params.videoId});
         const {title,description,user_id,thumbnailUrl,thumbnailId,category,tags,} = video;
         console.log(_id,user_id);
-        console.log(_id == user_id);
-      if(_id == user_id){
+        console.log(_id.toString() == user_id.toString());
+      if(_id.toString() == user_id.toString()){
      
         if(req.files){
               //update thumbnail and text //
