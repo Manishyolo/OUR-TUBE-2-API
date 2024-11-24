@@ -84,8 +84,7 @@ Router.post('/upload',validateToken,async (req,res)=>{
         const {_id,channelName} = user
         const video = await videoModel.findOne({_id:req.params.videoId});
         const {title,description,user_id,thumbnailUrl,thumbnailId,category,tags,} = video;
-        console.log(_id,user_id);
-        console.log(_id.toString() == user_id.toString());
+     
       if(_id.toString() == user_id.toString()){
      
         if(req.files){
@@ -141,7 +140,7 @@ Router.delete('/:videoId',validateToken,async (req,res)=>{
       const {_id,channelName} = user;
       const video = await videoModel.findOne({_id:req.params.videoId});
       
-         console.log(video.user_id.toString() == _id.toString())
+ 
      if(video.user_id.toString() == _id.toString()){
     
     await cloudinary.uploader.destroy(video.videoId,{resource_type:'video'});
