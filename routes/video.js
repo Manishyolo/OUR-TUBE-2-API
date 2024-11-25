@@ -8,7 +8,7 @@ const {getVideoDurationInSeconds} = require('get-video-duration');
 
 // get all video //
 Router.get('/get-videos',async (req,res)=>{
-         const videos = await videoModel.find();
+         const videos = await videoModel.find().populate('user_id');
          res.status(200).json({videos:videos});
          
 })
