@@ -6,6 +6,13 @@ const validateToken = require('../middleware/validateAuth');
 const cloudinary = require('cloudinary').v2;
 const {getVideoDurationInSeconds} = require('get-video-duration');
 
+// get all video //
+Router.get('/get-videos',async (req,res)=>{
+         const videos = await videoModel.find();
+         res.status(200).json({videos:videos});
+         
+})
+
 
 // get own video //
 Router.get("/own-video",validateToken,async (req,res)=>{
