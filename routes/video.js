@@ -15,6 +15,8 @@ Router.get('/get-videos',async (req,res)=>{
 // get requested video //
 Router.get('/:videoId',async (req,res)=>{
    try {
+      console.log(req.params.videoId);
+      
       const video = await videoModel.findOne({_id:req.params.videoId})
       res.status(200).json({video:video});
    } catch (error) {
