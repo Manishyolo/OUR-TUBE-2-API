@@ -3,6 +3,8 @@ const Router = express.Router();
 const validateToken = require('../middleware/validateAuth');
 const userModel = require('../models/User');
 const commentModel = require('../models/Comment');
+
+// 
 Router.post("/new-comment/:videoId", validateToken, async (req, res) => {
   try {
     const { email } = req.user;

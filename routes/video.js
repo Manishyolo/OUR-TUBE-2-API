@@ -12,7 +12,17 @@ Router.get('/get-videos',async (req,res)=>{
          res.status(200).json({videos:videos});
          
 })
+// get requested video //
+Router.get('/:videoId',async (req,res)=>{
+   try {
+      const video = await videoModel.findOne({_id:req.params.videoId})
+      res.status(200).json({video:video});
+   } catch (error) {
+       res.status(400).json({error:"video not found"});
+   }
 
+
+})
 
 // get own video //
 Router.get("/own-video",validateToken,async (req,res)=>{
