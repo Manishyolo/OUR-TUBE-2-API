@@ -13,7 +13,7 @@ Router.get('/get-videos',async (req,res)=>{
          
 })
 // get requested video //
-Router.get('/:videoId',async (req,res)=>{
+Router.get('/request/:videoId',async (req,res)=>{
    try {
       console.log(req.params.videoId);
       
