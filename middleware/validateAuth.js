@@ -4,8 +4,9 @@ const dotenv = require('dotenv')
 dotenv.config();
 const validateToken = async(req,res,next)=>{
           try {
+            console.log(req.headers.authorization);
              const token = req.headers.authorization.split(" ")[1];
-             console.log(token);
+            
              const verifytoken = await JWT.verify(token,process.env.TOKEN_SECRET_KEY)
                   console.log(token,verifytoken)    
                   req.user = verifytoken  
