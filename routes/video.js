@@ -190,7 +190,7 @@ Router.put("/like/:videoId",validateToken,async (req,res)=>{
          video.likes -= 1;
          video.likedBy = video.likedBy.filter(userid=> userid.toString() != _id)
          await video.save();
-         return res.status(500).json({error:"already licked"})
+         return res.status(409).json({error:"already licked"})
       }
       if(video.dislikedBy.includes(_id)){
          video.dislike -= 1;
@@ -219,7 +219,7 @@ Router.put("/dislike/:videoId",validateToken,async (req,res)=>{
          video.dislike -= 1;
          video.dislikedBy = video.dislikedBy.filter(userid=> userid.toString() != _id)
          await video.save();
-         return res.status(500).json({error:"already disliked"})
+         return res.status(409).json({error:"already disliked"})
       }
       if(video.likedBy.includes(_id)){
          video.likes -= 1;
