@@ -190,7 +190,7 @@ Router.put("/like/:videoId",validateToken,async (req,res)=>{
          video.likes -= 1;
          video.likedBy = video.likedBy.filter(userid=> userid.toString() != _id)
          await video.save();
-         return res.status(409).json({error:"already licked"})
+         return res.status(409).json({error:"already licked",videoLikes:video.likes})
       }
       if(video.dislikedBy.includes(_id)){
          video.dislike -= 1;
@@ -199,7 +199,7 @@ Router.put("/like/:videoId",validateToken,async (req,res)=>{
       video.likes += 1;
       video.likedBy.push(_id);
       await video.save();
-      res.status(200).json({message:"liked"});
+      res.status(200).json({message:"liked",videoLikes:video.likes});
 
    } catch (error) {
        console.log(error);
@@ -219,7 +219,7 @@ Router.put("/dislike/:videoId",validateToken,async (req,res)=>{
          video.dislike -= 1;
          video.dislikedBy = video.dislikedBy.filter(userid=> userid.toString() != _id)
          await video.save();
-         return res.status(409).json({error:"already disliked"})
+         return res.status(409).json({error:"already disliked",videodisLikes:video.dislike})
       }
       if(video.likedBy.includes(_id)){
          video.likes -= 1;
@@ -228,7 +228,7 @@ Router.put("/dislike/:videoId",validateToken,async (req,res)=>{
       video.dislike += 1;
       video.dislikedBy.push(_id);
       await video.save();
-      res.status(200).json({message:"disliked"});
+      res.status(200).json({message:"disliked",videodisLikes:video.dislike});
 
    } catch (error) {
        console.log(error);
